@@ -1,5 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Main {
@@ -10,6 +12,14 @@ public class Main {
 		String password = "password";
 
 		Connection con = DriverManager.getConnection(url, user, password);
+
+		PreparedStatement ps = con.prepareStatement("select * from employee");
+		ResultSet rs = ps.executeQuery();
+
+		while(rs.next()) {
+			System.out.println(rs.getString("ename"));
+		}
+
 		con.close();
 
 	}
