@@ -7,6 +7,13 @@ import java.sql.SQLException;
 public class Main {
 	public static void main(String[] args) throws SQLException {
 
+		Employee emp = findEmployee(7369);
+		System.out.println(emp);
+
+	}
+
+	private static Employee findEmployee(int empno) throws SQLException{
+
 		String url = "jdbc:mysql://localhost:3306/employee";
 		String user = "root";
 		String password = "password";
@@ -16,20 +23,30 @@ public class Main {
 
 		// prepareStatementメソッドでコンパイルし
 		// コンパイル済みのStatementをPreparedStatementで保持
-		PreparedStatement ps = con.prepareStatement("select * from employee");
+		PreparedStatement ps = con.prepareStatement("select * from employee where empno = ?");
+		ps.setInt(1, empno);
 		// executeQueryで実行
 		// 実行結果を表で受け取る
 		ResultSet rs = ps.executeQuery();
 
 		// nextメソッドで一行ずつ取り出す
-		while(rs.next()) {
-			// enameをString型で受け取る
-			// System.out.println(rs.getString("ename"));
-			// System.out.println(rs.getInt("empno"));
-			System.out.println(rs.getDate("hiredate"));
+		// while(rs.next()) {
+		try {
+			if (rs.next()) {
+				Employee emp = new Employee();
+				emp.setEmpno(rs.getInt("empno"));
+				emp.setEname(rs.getString("ename"));
+				emp.setJob(rs.getString("job"));
+				emp.setHiredate(rs.getDate("hiredate"));
+				emp.setSalary(rs.getInt("salary"));
+				emp.setDeptno(rs.getInt("deptno"));
+				return emp;
+			}
+		} finally {
+			con.close();
 		}
 
-		con.close();
+		return null;
 
 	}
 }
