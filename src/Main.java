@@ -20,7 +20,13 @@ public class Main {
 		// Take2
 //		Employee emp = findDeptno(10);
 //		System.out.println(emp);
-		List<Employee> list = findDeptno(10);
+		// Take3
+//		List<Employee> list = findDeptno(10);
+//		for (Employee emp : list) {
+//			System.out.println(emp);
+//		}
+		List<Employee> list = new ArrayList<>();
+		list = findDeptno(10);
 		for (Employee emp : list) {
 			System.out.println(emp);
 		}
@@ -80,6 +86,8 @@ public class Main {
 		ps.setInt(1, deptno);
 		ResultSet rs = ps.executeQuery();
 
+		List<Employee> list = new ArrayList<>();
+
 		try {
 			while (rs.next()) {
 //				Department dpt = new Department();
@@ -87,8 +95,10 @@ public class Main {
 //				dpt.setDname(rs.getString("dname"));
 //				dpt.setLocation(rs.getString("location"));
 //				return dpt;
-				List<Employee> list = new ArrayList<>();
-				for (Employee emp : list) {
+				// List<Employee> list = new ArrayList<>();
+				// listに値が入っていない
+				// for (Employee emp : list) {
+					Employee emp = new Employee();
 					emp.setEmpno(rs.getInt("empno"));
 					emp.setEname(rs.getString("ename"));
 					emp.setJob(rs.getString("job"));
@@ -96,14 +106,17 @@ public class Main {
 					emp.setSalary(rs.getInt("salary"));
 					emp.setDeptno(rs.getInt("deptno"));
 					list.add(emp);
-				}
-				return list;
+				// }
+				// return list;
 			}
 		} finally {
 			con.close();
 		}
 
-		return null;
+		return list;
+
+		// Take7 returnの場所 return nullって必要？
+		// return null;
 
 	}
 }
