@@ -11,13 +11,22 @@ public class Main {
 		String user = "root";
 		String password = "password";
 
+		// DBの接続情報
 		Connection con = DriverManager.getConnection(url, user, password);
 
+		// prepareStatementメソッドでコンパイルし
+		// コンパイル済みのStatementをPreparedStatementで保持
 		PreparedStatement ps = con.prepareStatement("select * from employee");
+		// executeQueryで実行
+		// 実行結果を表で受け取る
 		ResultSet rs = ps.executeQuery();
 
+		// nextメソッドで一行ずつ取り出す
 		while(rs.next()) {
-			System.out.println(rs.getString("ename"));
+			// enameをString型で受け取る
+			// System.out.println(rs.getString("ename"));
+			// System.out.println(rs.getInt("empno"));
+			System.out.println(rs.getDate("hiredate"));
 		}
 
 		con.close();
